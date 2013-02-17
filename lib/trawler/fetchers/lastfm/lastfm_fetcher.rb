@@ -1,9 +1,9 @@
 module Trawler
   module Fetchers
     class LastfmFetcher
-      def initialize(lastfm, store)
-        @lastfm = lastfm
+      def initialize(store, lastfm)
         @store = store
+        @lastfm = lastfm
       end
 
       def fetch(username)
