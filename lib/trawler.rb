@@ -1,5 +1,1 @@
-require "trawler/version"
-
-module Trawler
-  # Your code goes here...
-end
+Dir["#{File.dirname(__FILE__)}/trawler/**/*.rb"].each { |rb| require rb }
