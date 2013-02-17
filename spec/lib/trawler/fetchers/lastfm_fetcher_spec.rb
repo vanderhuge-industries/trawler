@@ -13,7 +13,7 @@ describe Trawler::Fetchers::LastfmFetcher do
     let(:fetcher) { Trawler::Fetchers::LastfmFetcher.new(fake_store, fake_lastfm) }
 
     it 'fetches recent tracks for the supplied user' do
-      fake_lastfm_user.should_receive(:get_recent_tracks).with(username, anything).and_return(fake_response)
+      fake_lastfm_user.should_receive(:get_recent_tracks).with(hash_including(:user => username)).and_return(fake_response)
       fetcher.fetch(username)
     end
 
@@ -21,7 +21,7 @@ describe Trawler::Fetchers::LastfmFetcher do
       before { fake_store.stub(:latest_timestamp).and_return(nil) }
 
       it 'loads the last 200 tracks that have been scrobbled' do
-        fake_lastfm_user.should_receive(:get_recent_tracks).with(anything, hash_including(:limit => 200)).and_return(fake_response)
+        fake_lastfm_user.should_receive(:get_recent_tracks).with(hash_including(:limit => 200)).and_return(fake_response)
         fetcher.fetch(username)
       end
     end
@@ -31,7 +31,7 @@ describe Trawler::Fetchers::LastfmFetcher do
       before { fake_store.stub(:latest_timestamp).and_return(last_fetch_timestamp) }
 
       it 'only loads tracks scrobbled after the last fetch' do
-        fake_lastfm_user.should_receive(:get_recent_tracks).with(anything, hash_including(:from => last_fetch_timestamp)).and_return(fake_response)
+        fake_lastfm_user.should_receive(:get_recent_tracks).with(hash_including(:from => last_fetch_timestamp)).and_return(fake_response)
         fetcher.fetch(username)
       end
     end
@@ -44,9 +44,9 @@ describe Trawler::Fetchers::LastfmFetcher do
       end
 
       it 'repeats the fetch for each page' do
-        fake_lastfm_user.should_receive(:get_recent_tracks).with(anything, anything)
-        fake_lastfm_user.should_receive(:get_recent_tracks).with(anything, hash_including(:page => 2))
-        fake_lastfm_user.should_receive(:get_recent_tracks).with(anything, hash_including(:page => 3))
+        fake_lastfm_user.should_receive(:get_recent_tracks).with(anything)
+        fake_lastfm_user.should_receive(:get_recent_tracks).with(hash_including(:page => 2))
+        fake_lastfm_user.should_receive(:get_recent_tracks).with(hash_including(:page => 3))
 
         fetcher.fetch(username)
       end
