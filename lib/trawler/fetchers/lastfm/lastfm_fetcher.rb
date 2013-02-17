@@ -21,6 +21,9 @@ module Trawler
           end
         end
 
+        # TODO: Map these to a local model?
+        # - it would be more resilient to API changes and be a nice
+        #   entry point for persistence.
         tracks
       end
     end
