@@ -18,7 +18,10 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'lastfm', [ '>= 0' ]
+  gem.add_dependency 'mongoid', [ '>= 3' ]
+  gem.add_dependency 'database_cleaner', [ '>= 0.9' ]
 
   gem.add_development_dependency 'rspec', [ '>= 0' ]
   gem.add_development_dependency 'pry', [ '>= 0' ]
+  gem.add_development_dependency 'mongoid-rspec', [ '>= 0' ]
 end
