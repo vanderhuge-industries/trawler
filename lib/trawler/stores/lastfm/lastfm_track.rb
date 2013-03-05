@@ -37,6 +37,14 @@ module Trawler
           max(:event_timestamp)
         end
       end
+
+      class Thumbnail
+        include Mongoid::Document
+
+        field :size, type: String
+        field :url, type: String
+        embedded_in :track
+      end
     end
   end
 end
