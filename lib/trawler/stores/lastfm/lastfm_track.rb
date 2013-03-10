@@ -1,17 +1,3 @@
-# TODO:
-#   This is where the various fields are in the JSON data
-#   returned from the API
-#
-# name
-# artist.content => artist_name
-# album.content => album_name
-# url
-# image.small => small_image
-# image.medium => medium_image
-# image.large => large_image
-# date.uts => played_timestamp
-# date.content => played_datetime
-
 module Trawler
   module Stores
     module Lastfm
@@ -27,6 +13,7 @@ module Trawler
         field :played_datetime, type: DateTime
 
         embeds_many :thumbnails
+        accepts_nested_attributes_for :thumbnails
 
         def thumbnail(size)
           thumbnail = thumbnails.where(size: size).first
