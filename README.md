@@ -29,8 +29,11 @@ Or install it yourself as:
 
 Grab yourself an API key here: (<http://www.last.fm/api/accounts>)
 
-Fire up the secret source:
+Start your mongos and fire up the secret source:
 
+    require 'trawler'
+    
+    Mongoid.load!('db/mongoid.yml', :default)
     Trawler::LastfmSource.collect(<your_api_key>, <your_lastfm_username>)
 
 Check your mongos for a bunch of Tracks.
