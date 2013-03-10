@@ -4,7 +4,7 @@ module Trawler
       # TODO:
       # Handle "nowplaying: true" track which has no date data but is currently playing.
       def self.parse(tracks)
-        tracks.map do |track|
+        tracks.reject { |track| track['nowplaying'] == 'true' }.map do |track|
           Trawler::Stores::Lastfm::Track.create(
             event_timestamp:  track['date']['uts'],
             played_datetime:  DateTime.parse(track['date']['content']),

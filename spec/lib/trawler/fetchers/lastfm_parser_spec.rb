@@ -12,6 +12,15 @@ describe Trawler::Fetchers::LastfmParser do
       }
     end
 
+    describe 'the currently playing track' do
+      let(:current_track) { track.merge('nowplaying' => 'true') }
+      subject { Trawler::Stores::Lastfm::Track }
+
+      it { should_not_receive(:create) }
+
+      after { Trawler::Fetchers::LastfmParser.parse( [current_track] ) }
+    end
+
     describe 'basic attributes' do
 
       subject { Trawler::Stores::Lastfm::Track }
