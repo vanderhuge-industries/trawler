@@ -25,7 +25,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Last.fm
+
+Grab yourself an API key here: (<http://www.last.fm/api/accounts>)
+
+Fire up the secret source:
+
+    Trawler::LastfmSource.collect(<your_api_key>, <your_lastfm_username>)
+
+Check your mongos for a bunch of Tracks.
 
 ## Contributing
 
