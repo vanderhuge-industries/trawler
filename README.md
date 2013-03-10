@@ -16,6 +16,13 @@ Or install it yourself as:
 
     $ gem install trawler
 
+## Testing
+
+(NOTE: Start yerself a mongo all up in your favourite way.)
+
+    bundle exec rspec
+
+
 ## Usage
 
 TODO: Write usage instructions here
