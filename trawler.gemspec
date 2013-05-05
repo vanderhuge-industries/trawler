@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Trawler::VERSION
   gem.authors       = ["Ray Grasso"]
   gem.email         = ["ray.grasso@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Trawler crawls awl}
+  gem.summary       = %q{Trawler crawls awl}
+  gem.homepage      = 'https://github.com/vanderhuge-industries/trawler'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
