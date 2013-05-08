@@ -19,7 +19,16 @@ require 'lastfm'
 class Lastfm
   module MethodCategory
     class User < Base
-      regular_method :get_recent_tracks, [:user], [[:limit, nil], [:page, nil], [:to, nil], [:from, nil]] do |response|
+      regular_method(
+        :get_recent_tracks,
+        :required => [:user],
+        :optional => [
+          [:limit, nil],
+          [:page, nil],
+          [:to, nil],
+          [:from, nil]
+        ]
+      ) do |response|
         response.xml['recenttracks']
       end
     end
