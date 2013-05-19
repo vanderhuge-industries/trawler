@@ -10,8 +10,7 @@ module Trawler
 
         field :last_update, type: DateTime
 
-        embeds_many :highlights
-
+        has_many :highlights
       end
 
       class Highlight
@@ -19,7 +18,7 @@ module Trawler
 
         field :text, type: String
 
-        embedded_in :book
+        belongs_to :book
       end
     end
   end

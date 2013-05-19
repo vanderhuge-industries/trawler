@@ -5,6 +5,6 @@ describe Trawler::Stores::Readmill::Book do
   it { should have_field(:last_update) }
 
   describe 'highlights' do
-    it { should embed_many(:highlights) }
+    it { should have_many(:highlights) }
   end
 end
