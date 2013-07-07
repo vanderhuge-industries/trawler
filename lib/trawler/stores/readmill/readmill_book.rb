@@ -24,5 +24,3 @@ module Trawler
   end
 end
 
-
-

@@ -5,9 +5,9 @@ describe Trawler::Fetchers::LastfmFetcher do
   describe 'fetching recent tracks' do
     let(:username) { 'arnold' }
 
-    let(:fake_lastfm_user)  { mock(:lastfmuser) }
-    let(:fake_lastfm)       { mock(:lastfm, :user => fake_lastfm_user) }
-    let(:fake_store)        { mock(:lastfmstore, :latest_timestamp => Time.now.to_i) }
+    let(:fake_lastfm_user)  { double(:lastfmuser) }
+    let(:fake_lastfm)       { double(:lastfm, :user => fake_lastfm_user) }
+    let(:fake_store)        { double(:lastfmstore, :latest_timestamp => Time.now.to_i) }
     let(:fake_response)     { { 'totalPages' => '', 'track' => [] } }
 
     let(:fetcher) { Trawler::Fetchers::LastfmFetcher.new(fake_store, fake_lastfm) }

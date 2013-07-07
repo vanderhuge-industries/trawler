@@ -12,7 +12,7 @@ describe Trawler::LastfmSource do
     let(:lastfm_tracks) { JSON.parse(lastfm_json) }
     let(:lastfm_result) { { 'track' => lastfm_tracks, 'totalPages' => 1 } }
     before do
-      fake_lastfm = mock(:lastfm, :user => mock(:lastfm_user, :get_recent_tracks => lastfm_result))
+      fake_lastfm = double(:lastfm, :user => double(:lastfm_user, :get_recent_tracks => lastfm_result))
       Lastfm.stub(:new).and_return(fake_lastfm)
     end
 
