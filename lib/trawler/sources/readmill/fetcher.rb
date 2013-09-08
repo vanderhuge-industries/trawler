@@ -14,13 +14,17 @@ module Trawler
         end
 
         def highlights_for_user(user_id, count=100)
-          highlights_json = get_json("https://api.readmill.com/v2/users/#{user_id}/highlights?client_id=#{@client_id}&count=#{count}") {|error_response| raise "Fetch of Readmill highlights for user #{user_id} failed. #{error_response}" }
+          highlights_json = get_json(highlights_url(user_id, count)) do |error_response|
+            raise "Fetch of Readmill highlights for user #{user_id} failed. #{error_response}"
+          end
 
           @parser.highlights_from_json(highlights_json)
         end
 
         def book_for_reading(reading_id)
-          reading_json = get_json("https://api.readmill.com/v2/readings/#{reading_id}?client_id=#{@client_id}") {|error_response| raise "Fetch of Readmill reading #{reading_id} failed. #{error_response}" }
+          reading_json = get_json(reading_url(reading_id)) do |error_response|
+            raise "Fetch of Readmill reading #{reading_id} failed. #{error_response}"
+          end
 
           @parser.book_from_reading_json(reading_json)
         end
@@ -33,6 +37,14 @@ module Trawler
           yield(response) unless response.code == 200
 
           JSON.parse(response.body)
+        end
+
+        def highlights_url(user_id, count)
+          "https://api.readmill.com/v2/users/#{user_id}/highlights?client_id=#{@client_id}&count=#{count}"
+        end
+
+        def reading_url(reading_id)
+          "https://api.readmill.com/v2/readings/#{reading_id}?client_id=#{@client_id}"
         end
       end
     end
