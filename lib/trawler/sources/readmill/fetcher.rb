@@ -14,7 +14,7 @@ module Trawler
 
           raise "Fetch of Readmill highlights failed. #{response}" unless response.code == 200
 
-          @parser.call(response.parsed_response)
+          @parser.highlights_from_json(response.parsed_response)
         end
       end
     end

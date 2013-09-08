@@ -4,7 +4,7 @@ require "ostruct"
 describe Trawler::Sources::Readmill::Fetcher do
 
   let(:client_id) { "client-id" }
-  let(:parser) { double("parser", call: parsed_highlights) }
+  let(:parser) { double("parser", highlights_from_json: parsed_highlights) }
   let(:parsed_highlights) { [] }
   let(:fetcher) { Trawler::Sources::Readmill::Fetcher.new(client_id, parser) }
 
@@ -30,7 +30,7 @@ describe Trawler::Sources::Readmill::Fetcher do
 
     it "parses the json response" do
       fetcher.highlights_for_user("user-id")
-      expect(parser).to have_received(:call).with({})
+      expect(parser).to have_received(:highlights_from_json).with({})
     end
 
     it "returns the parsed highlights" do
