@@ -3,15 +3,26 @@ module Trawler
     module Readmill
       class Parser
         def highlights_from_json(json)
-          json['items'].map {|i| i['highlight'] }.map do |item|
+          json['items'].map {|i| i['highlight'] }.map do |hl|
             OpenStruct.new({
-              remote_id: item['id'].to_s,
+              remote_id: hl['id'].to_s,
               source: :readmill,
-              text: item['content'],
-              date: DateTime.parse(item['highlighted_at']),
-              reading_id: item['reading']['id']
+              text: hl['content'],
+              date: DateTime.parse(hl['highlighted_at']),
+              reading_id: hl['reading']['id']
             })
           end
+        end
+
+        def book_from_reading_json(json)
+          book = json['reading']['book']
+          OpenStruct.new(
+            remote_id: book['id'].to_s,
+            source: :readmill,
+            title: book['title'],
+            author: book['author'],
+            cover_url: book['cover_url']
+          )
         end
       end
     end
