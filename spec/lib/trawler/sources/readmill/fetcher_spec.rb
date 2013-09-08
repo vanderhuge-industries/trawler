@@ -16,6 +16,7 @@ describe Trawler::Sources::Readmill::Fetcher do
 
     before(:each) do
       allow(RestClient).to receive(:get).and_return { response }
+      allow(RestClient).to receive(:enable)
       allow(JSON).to receive(:parse).and_return { raw_json }
     end
 

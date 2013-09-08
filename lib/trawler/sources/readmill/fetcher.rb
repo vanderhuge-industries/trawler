@@ -1,5 +1,7 @@
 require 'rest-client'
 require 'json'
+require 'restclient/components'
+require 'rack/cache'
 
 module Trawler
   module Sources
@@ -8,6 +10,7 @@ module Trawler
         def initialize(client_id, parser=Parser.new)
           @client_id = client_id
           @parser = parser
+          RestClient.enable Rack::Cache
         end
 
         def highlights_for_user(user_id, count=100)
