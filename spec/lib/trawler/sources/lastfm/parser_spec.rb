@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Trawler::Fetchers::LastfmParser do
+describe Trawler::Sources::Lastfm::Parser do
   describe 'mapping Last.fm data for local persistence' do
     let(:track) do
       {
@@ -18,7 +18,7 @@ describe Trawler::Fetchers::LastfmParser do
 
       it { should_not_receive(:create) }
 
-      after { Trawler::Fetchers::LastfmParser.parse( [current_track] ) }
+      after { Trawler::Sources::Lastfm::Parser.parse( [current_track] ) }
     end
 
     describe 'basic attributes' do
@@ -36,7 +36,7 @@ describe Trawler::Fetchers::LastfmParser do
       it { is_created_with(album_name: track['album']['content']) }
       it { is_created_with(url: track['url']) }
 
-      after { Trawler::Fetchers::LastfmParser.parse( [track] ) }
+      after { Trawler::Sources::Lastfm::Parser.parse( [track] ) }
     end
 
     describe "the track's thumbnails" do
@@ -47,7 +47,7 @@ describe Trawler::Fetchers::LastfmParser do
       let(:images) { (1..number_of_images).map { |i| { 'size' => "image#{i}", 'content' => image_url.call(i) } } }
 
       let(:track_with_thumbnails) { track.merge('image' => images) }
-      let(:parsed_track) { Trawler::Fetchers::LastfmParser.parse( [track_with_thumbnails] ).first }
+      let(:parsed_track) { Trawler::Sources::Lastfm::Parser.parse( [track_with_thumbnails] ).first }
 
       its(:size) { should == number_of_images }
 

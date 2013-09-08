@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Trawler::Fetchers::LastfmFetcher do
+describe Trawler::Sources::Lastfm::Fetcher do
 
   describe 'fetching recent tracks' do
     let(:username) { 'arnold' }
@@ -10,7 +10,7 @@ describe Trawler::Fetchers::LastfmFetcher do
     let(:fake_store)        { double(:lastfmstore, :latest_timestamp => Time.now.to_i) }
     let(:fake_response)     { { 'totalPages' => '', 'track' => [] } }
 
-    let(:fetcher) { Trawler::Fetchers::LastfmFetcher.new(fake_store, fake_lastfm) }
+    let(:fetcher) { Trawler::Sources::Lastfm::Fetcher.new(fake_store, fake_lastfm) }
 
     it 'fetches recent tracks for the supplied user' do
       fake_lastfm_user.should_receive(:get_recent_tracks).with(hash_including(:user => username)).and_return(fake_response)
