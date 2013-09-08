@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'ostruct'
 
-describe Trawler::Fetchers::ReadmillFetcher do
+describe Trawler::Sources::Readmill::Fetcher do
 
   let(:client_id) { 'client-id' }
   let(:parser) { double('parser', call: nil) }
-  let(:fetcher) { Trawler::Fetchers::ReadmillFetcher.new(client_id, parser) }
+  let(:fetcher) { Trawler::Sources::Readmill::Fetcher.new(client_id, parser) }
 
   describe '#highlights_for_user' do
     let(:response) { OpenStruct.new(code: 200, parsed_response: {}) }
