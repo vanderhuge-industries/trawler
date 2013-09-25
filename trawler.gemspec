@@ -25,6 +25,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rack-cache', [ '>= 1.2' ]
 
   gem.add_development_dependency 'rspec', [ '>= 2.14.0' ]
+  gem.add_development_dependency 'guard-rspec', [ '>= 3.1.0' ]
+  gem.add_development_dependency 'terminal-notifier-guard', [ '>= 1.5.0' ]
   gem.add_development_dependency 'pry', [ '>= 0' ]
   gem.add_development_dependency 'mongoid-rspec', [ '>= 0' ]
 end
