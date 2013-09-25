@@ -8,7 +8,7 @@ describe Trawler::Sources::Lastfm::Source do
   # - Stub out Lastfm.new, return a stub with tracks in lastfm.user.get_recent_tracks
   # - Then just the source over those and see if we get what we want in the database?
   describe 'collecting tracks' do
-    let(:lastfm_json) { File.read("#{File.dirname(__FILE__)}/../../../../canned_data/lastfm_tracks.json") }
+    let(:lastfm_json) { File.read("#{File.dirname(__FILE__)}/../../../canned_data/lastfm_tracks.json") }
     let(:lastfm_tracks) { JSON.parse(lastfm_json) }
     let(:lastfm_result) { { 'track' => lastfm_tracks, 'totalPages' => 1 } }
     before do
