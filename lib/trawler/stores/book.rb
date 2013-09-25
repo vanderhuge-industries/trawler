@@ -3,7 +3,7 @@ module Trawler
     class Book
       include Mongoid::Document
 
-      [:title, :author].each do |f|
+      [:title, :author, :source].each do |f|
         field f, type: String
       end
 
