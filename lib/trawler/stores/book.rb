@@ -3,9 +3,11 @@ module Trawler
     class Book
       include Mongoid::Document
 
-      [:title, :author, :source].each do |f|
+      [:title, :author].each do |f|
         field f, type: String
       end
+
+      field :source, type: Symbol
 
       field :last_update, type: DateTime
 

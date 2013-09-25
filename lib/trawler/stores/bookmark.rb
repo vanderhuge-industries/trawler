@@ -7,6 +7,8 @@ module Trawler
         field f, type: String
       end
 
+      field :source, type: Symbol
+
       field :time, type: DateTime
     end
   end
