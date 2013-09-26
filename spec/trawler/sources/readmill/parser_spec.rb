@@ -60,7 +60,7 @@ describe Trawler::Sources::Readmill::Parser do
 
     it "set the attibutes of interest in the returned objects" do
       highlight = result.first
-      expect(highlight.remote_id).to eq "575439"
+      expect(highlight.source_id).to eq "575439"
       expect(highlight.source).to eq :readmill
       expect(highlight.text).to eq "The tractability of Lisp for metaprogramming purposes is the direct result"
       expect(highlight.date).to eq DateTime.new(2013, 8, 29, 13, 44, 52)
@@ -116,7 +116,7 @@ describe Trawler::Sources::Readmill::Parser do
     it "set the attibutes of interest in the returned objects" do
       book = parser.book_from_reading_json(reading_json)
 
-      expect(book.remote_id).to eq "93053"
+      expect(book.source_id).to eq "93053"
       expect(book.source).to eq :readmill
       expect(book.title).to eq "Bad Blood"
       expect(book.author).to eq "Will Storr"
