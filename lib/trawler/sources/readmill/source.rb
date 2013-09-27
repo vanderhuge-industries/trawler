@@ -8,13 +8,21 @@ module Trawler
 
         def collect(readmill_userid)
           highlights = @fetcher.highlights_for_user(readmill_userid)
+          store_highlights highlights
+        end
 
+        def collect_all(readmill_userid)
+          highlights = @fetcher.all_highlights_for_user(readmill_userid)
+          store_highlights highlights
+        end
+
+      private
+
+        def store_highlights(highlights)
           add_readings_to_highlights(highlights)
 
           Trawler::Stores::Highlight.save highlights
         end
-
-      private
 
         def add_readings_to_highlights(highlights)
           highlights.each do |highlight|

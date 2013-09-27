@@ -5,7 +5,14 @@ describe Trawler::Sources::Readmill::Fetcher do
 
   let(:client_id) { "client-id" }
   let(:parser) { double("parser", highlights_from_json: parsed_highlights, book_from_reading_json: parsed_book) }
-  let(:raw_json) { double }
+  let(:raw_json) {
+    {
+      "pagination" => {
+        "next" => "https://api.readmill.com/v2/users/2292/highlights?client_id=7c5a0fbcd6948a9cdf8e9156ed31c5a0&cou"
+      },
+      "items" => []
+    }
+  }
   let(:parsed_highlights) { double }
   let(:parsed_book) { double }
 

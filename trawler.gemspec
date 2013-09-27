@@ -21,8 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'mongoid', [ '>= 3' ]
   gem.add_dependency 'database_cleaner', [ '>= 0.9' ]
   gem.add_dependency 'rest-client', [ '>= 1.6.0' ]
-  gem.add_dependency 'rest-client-components', [ '>= 0.2.0' ]
-  gem.add_dependency 'rack-cache', [ '>= 1.2' ]
+  gem.add_dependency 'memoist', [ '>= 0.9' ]
 
   gem.add_development_dependency 'rspec', [ '>= 2.14.0' ]
   gem.add_development_dependency 'guard-rspec', [ '>= 3.1.0' ]
