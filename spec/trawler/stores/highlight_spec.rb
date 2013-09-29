@@ -2,9 +2,7 @@ require 'spec_helper'
 require 'ostruct'
 
 describe Trawler::Stores::Highlight do
-  it { should have_field(:text) }
-  it { should have_field(:source) }
-  it { should have_field(:source_id) }
+  it { should have_fields(:text, :source, :source_id, :hidden) }
   it { should belong_to(:book) }
 
   describe ".save" do

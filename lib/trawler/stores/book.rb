@@ -2,6 +2,7 @@ module Trawler
   module Stores
     class Book
       include Mongoid::Document
+      include Trawler::Stores::Visible
 
       [:title, :author, :source_id, :cover_url].each do |f|
         field f, type: String

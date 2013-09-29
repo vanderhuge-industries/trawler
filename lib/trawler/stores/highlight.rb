@@ -2,6 +2,7 @@ module Trawler
   module Stores
     class Highlight
       include Mongoid::Document
+      include Trawler::Stores::Visible
 
       field :text, type: String
 
