@@ -3,7 +3,7 @@ module Trawler
     class Bookmark
       include Mongoid::Document
 
-      [:url, :title, :description, :tags].each do |f|
+      [:url, :title, :description, :tags, :source_id].each do |f|
         field f, type: String
       end
 

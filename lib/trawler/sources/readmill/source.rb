@@ -11,7 +11,7 @@ module Trawler
           store_highlights highlights
         end
 
-        def collect_all(readmill_userid)
+        def import(readmill_userid)
           highlights = @fetcher.all_highlights_for_user(readmill_userid)
           store_highlights highlights
         end
