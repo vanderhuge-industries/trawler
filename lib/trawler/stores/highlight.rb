@@ -30,6 +30,8 @@ module Trawler
             book: book
           ).first_or_create
         end
+
+        # TODO Set last updated on the book itself
       end
     end
   end

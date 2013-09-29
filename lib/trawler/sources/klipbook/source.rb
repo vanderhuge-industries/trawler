@@ -6,24 +6,28 @@ module Trawler
           puts "Importing highlights from #{books_json.length} books"
 
           books_json.each do |book_json|
-            book = Trawler::Stores::Book.new.tap do |book|
-              book.title  = book_json['title']
-              book.author = book_json['author']
-              book.source = :klipbook
-              book.source_id = book_json['asin']
-              book.last_update = DateTime.parse(book_json['last_update'])
-              book.highlights = book_json['clippings']
-                .select { |json_h| json_h['type'] == 'highlight' }
-                .map do |json_h|
-                  Trawler::Stores::Highlight.new.tap do |highlight|
-                    highlight.text = json_h['text']
-                    highlight.source = :klipbook
-                    highlight.source_id = json_h['annotation_id']
-                  end
-                end
-            end
+            book = Trawler::Stores::Book.where(
+              title: book_json['title'],
+              author: book_json['author'],
+              source: :klipbook,
+              source_id: book_json['asin']
+            ).first_or_create
+
+            puts "Importing #{book_json['title']}"
+            book.last_update = DateTime.parse(book_json['last_update'])
             book.save
-            book.highlights.each(&:save)
+
+            highlights = book_json['clippings']
+              .select { |json_h| json_h['type'] == 'highlight' }
+              .map do |json_h|
+                Trawler::Stores::Highlight.new.tap do |highlight|
+                  highlight.text = json_h['text']
+                  highlight.source = :klipbook
+                  highlight.source_id = json_h['annotation_id']
+                  highlight.book = book
+                end
+              end
+            highlights.each(&:save)
           end
         end
       end
