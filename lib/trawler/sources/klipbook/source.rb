@@ -3,6 +3,8 @@ module Trawler
     module Klipbook
       class Source
         def import(books_json)
+          puts "Importing highlights from #{books_json.length} books"
+
           books_json.each do |book_json|
             book = Trawler::Stores::Book.new.tap do |book|
               book.title  = book_json['title']

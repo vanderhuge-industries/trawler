@@ -1,7 +1,3 @@
-require 'rest-client'
-require 'json'
-require 'memoist'
-
 module Trawler
   module Sources
     module Readmill
@@ -31,7 +27,7 @@ module Trawler
         end
 
         def book_for_reading(reading_id)
-          reading_json = get_json(reading_url(reading_id)) do |error_response|
+          reading_json = Trawler::Sources::JsonFetcher.get(reading_url(reading_id)) do |error_response|
             raise "Fetch of Readmill reading #{reading_id} failed. #{error_response}"
           end
 
@@ -41,24 +37,13 @@ module Trawler
       private
 
         def fetch_highlights(url)
-          highlights_json = get_json(url) do |error_response|
+          highlights_json = Trawler::Sources::JsonFetcher.get(url) do |error_response|
             raise "Fetch of Readmill highlights from #{url} failed. #{error_response}"
           end
           next_page_url = highlights_json["pagination"]["next"]
 
           [@parser.highlights_from_json(highlights_json), next_page_url]
         end
-
-        def get_json(url)
-          puts "Fetching #{url} ..."
-          response = RestClient.get(url, { accepts: :json })
-
-          yield(response) unless response.code == 200
-
-          JSON.parse(response.body)
-        end
-
-        memoize :get_json
 
         def highlights_url(user_id, count)
           "https://api.readmill.com/v2/users/#{user_id}/highlights?client_id=#{@client_id}&count=#{count}"

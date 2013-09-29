@@ -11,7 +11,7 @@ module Trawler
       belongs_to :book
 
       def self.save(highlights)
-        highlights.each do |h|
+        highlights.map do |h|
           b = h.book
           book = Trawler::Stores::Book.where(
             title: b.title,
