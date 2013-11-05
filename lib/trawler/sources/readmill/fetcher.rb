@@ -1,8 +1,10 @@
+require 'memoist'
+
 module Trawler
   module Sources
     module Readmill
       class Fetcher
-        extend ::Memoist
+        extend Memoist
 
         def initialize(client_id, parser=Parser.new)
           @client_id = client_id
