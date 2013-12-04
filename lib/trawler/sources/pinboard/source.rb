@@ -10,15 +10,16 @@ module Trawler
           puts "Fetched #{json['posts'].length} bookmarks"
 
           json['posts'].map do |bookmark_json|
-            bookmark = Trawler::Stores::Bookmark.where(
-              url: bookmark_json['href'],
-              title: bookmark_json['description'],
-              description: bookmark_json['extended'],
-              time: DateTime.parse(bookmark_json['time']),
-              tags: bookmark_json['tags'],
-              source: :pinboard,
-              source_id: bookmark_json['href']
-            ).first_or_create
+            bookmark = get_bookmark bookmark_json['href']
+
+            bookmark.url         = bookmark_json['href']
+            bookmark.title       = bookmark_json['description']
+            bookmark.description = bookmark_json['extended']
+            bookmark.time        = DateTime.parse(bookmark_json['time'])
+            bookmark.tags        = bookmark_json['tags']
+            bookmark.source      = :pinboard
+            bookmark.source_id   = bookmark_json['href']
+            bookmark.save
           end
         end
 
@@ -28,15 +29,21 @@ module Trawler
 
           bookmarks_json.map do |bookmark_json|
             Trawler::Stores::Bookmark.new.tap do |bookmark|
-              bookmark.url = bookmark_json['href']
-              bookmark.title = bookmark_json['description']
+              bookmark.url         = bookmark_json['href']
+              bookmark.title       = bookmark_json['description']
               bookmark.description = bookmark_json['extended']
-              bookmark.time = DateTime.parse(bookmark_json['time'])
-              bookmark.tags = bookmark_json['tags']
-              bookmark.source = :pinboard
-              bookmark.source_id = bookmark_json['href']
+              bookmark.time        = DateTime.parse(bookmark_json['time'])
+              bookmark.tags        = bookmark_json['tags']
+              bookmark.source      = :pinboard
+              bookmark.source_id   = bookmark_json['href']
             end
           end.each(&:save)
+        end
+
+        private
+
+        def get_bookmark(source_id)
+          Trawler::Stores::Bookmark.where(source_id: source_id).first || Trawler::Stores::Bookmark.new
         end
       end
     end
