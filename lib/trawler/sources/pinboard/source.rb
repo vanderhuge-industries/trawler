@@ -13,7 +13,7 @@ module Trawler
           puts "Fetched #{bookmarks_json.length} bookmarks"
 
           json['posts'].each do |bookmark_json|
-            bookmark = Trawler::Sources::Bookmark.find_or_create(bookmark_json['href'])
+            bookmark = Trawler::Stores::Bookmark.find_or_create(bookmark_json['href'])
             bookmark.title       = bookmark_json['description']
             bookmark.description = bookmark_json['extended']
             bookmark.time        = DateTime.parse(bookmark_json['time'])
@@ -35,7 +35,7 @@ module Trawler
 
         def save_bookmarks(json)
           json['posts'].each do |bookmark_json|
-            bookmark = Trawler::Sources::Bookmark.find_or_create(bookmark_json['href']) do |b|
+            bookmark = Trawler::Stores::Bookmark.find_or_create(bookmark_json['href']) do |b|
               b.title       = bookmark_json['description']
               b.description = bookmark_json['extended']
               b.time        = DateTime.parse(bookmark_json['time'])
