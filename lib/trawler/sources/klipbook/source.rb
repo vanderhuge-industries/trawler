@@ -2,32 +2,32 @@ module Trawler
   module Sources
     module Klipbook
       class Source
+        # TODO Add a task that polls a dropbox file and adds missing entries to the store
+        def collect
+        end
+
         def import(books_json)
           puts "Importing highlights from #{books_json.length} books"
 
-          books_json.each do |book_json|
-            book = Trawler::Stores::Book.where(
-              title: book_json['title'],
-              author: book_json['author'],
-              source: :klipbook,
-              source_id: book_json['asin']
-            ).first_or_create
+          books_json.each do |bjson|
+            book = Trawler::Stores::Book.find_or_create(bjson['title']) do |b|
+              puts "Importing #{bjson['title']}"
 
-            puts "Importing #{book_json['title']}"
-            book.last_update = DateTime.parse(book_json['last_update'])
-            book.save
+              b.author      = bjson['author']
+              b.source      = :klipbook
+              b.source_id   = bjson['asin']
+              b.last_update = DateTime.parse(bjson['last_update'])
+            end
 
-            highlights = book_json['clippings']
-              .select { |json_h| json_h['type'] == 'highlight' }
-              .map do |json_h|
-                Trawler::Stores::Highlight.new.tap do |highlight|
-                  highlight.text = json_h['text']
-                  highlight.source = :klipbook
-                  highlight.source_id = json_h['annotation_id']
-                  highlight.book = book
+            highlights = bjson['clippings']
+              .select { |hjson| hjson['type'] == 'highlight' }
+              .each do |hjson|
+                Trawler::Stores::Highlight.find_or_create(hjson['text']) do |h|
+                  h.source = :klipbook
+                  h.source_id = hjson['annotation_id']
+                  h.book = book
                 end
               end
-            highlights.each(&:save)
           end
         end
       end
