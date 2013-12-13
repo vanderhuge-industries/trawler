@@ -4,35 +4,36 @@ describe Trawler::Stores::Bookmark do
   it { should have_fields(:url, :title, :description, :tags, :time, :source, :source_id, :hidden) }
 
   describe ".find_or_create" do
-    context "with no existing books" do
-      let!(:existing_book) {}
+    context "with no existing bookmarks" do
+      let!(:existing_bookmark) {}
 
-      it "creates a new book" do
-        new_book = Trawler::Stores::Book.find_or_create "book title"
-        expect(new_book).to be
-        expect(Trawler::Stores::Book.count).to eq 1
+      it "creates a new bookmark" do
+        new_bookmark = Trawler::Stores::Bookmark.find_or_create "bookmark url"
+        expect(new_bookmark).to be
+        expect(new_bookmark.url).to eq "bookmark url"
+        expect(Trawler::Stores::Bookmark.count).to eq 1
       end
 
       it "calls the provided block" do
-        new_book = Trawler::Stores::Book.find_or_create "book title" do |b|
-          b.author = "some author"
+        new_bookmark = Trawler::Stores::Bookmark.find_or_create "bookmark url" do |b|
+          b.description = "some description"
         end
 
-        expect(new_book.author).to eq "some author"
+        expect(new_bookmark.description).to eq "some description"
       end
     end
 
-    context "with an existing book" do
-      let!(:existing_book) do
-        Trawler::Stores::Book.create(
-          title: "book title",
-          source: :readmill,
+    context "with an existing bookmark" do
+      let!(:existing_bookmark) do
+        Trawler::Stores::Bookmark.create(
+          url: "bookmark url",
+          source: :pinboard,
           source_id: "1")
       end
 
-      it "returns the existing book" do
-        book = Trawler::Stores::Book.find_or_create "book title"
-        expect(book).to eq existing_book
+      it "returns the existing bookmark" do
+        bookmark = Trawler::Stores::Bookmark.find_or_create "bookmark url"
+        expect(bookmark).to eq existing_bookmark
       end
     end
   end
