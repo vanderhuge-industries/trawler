@@ -5,6 +5,7 @@ module Trawler
       include Trawler::Stores::Visible
 
       field :text, type: String
+      field :date, type: DateTime
 
       field :source, type: Symbol
       field :source_id, type: String

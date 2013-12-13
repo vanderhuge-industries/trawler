@@ -2,48 +2,48 @@ module Trawler
   module Sources
     module Pinboard
       class Source
+        # collect will update existing bookmarks in place
         def collect(user, password, count=50)
           json = JsonFetcher.get "https://#{user}:#{password}@api.pinboard.in/v1/posts/recent?count=#{count}&format=json" do |error_response|
             raise "Fetch of Pinboard bookmarks failed. #{error_response}"
           end
 
-          puts "Fetched #{json['posts'].length} bookmarks"
+          bookmarks_json = json['posts']
 
-          json['posts'].map do |bookmark_json|
-            bookmark = get_bookmark bookmark_json['href']
+          puts "Fetched #{bookmarks_json.length} bookmarks"
 
-            bookmark.url         = bookmark_json['href']
+          json['posts'].each do |bookmark_json|
+            bookmark = Trawler::Sources::Bookmark.find_or_create(bookmark_json['href'])
             bookmark.title       = bookmark_json['description']
             bookmark.description = bookmark_json['extended']
             bookmark.time        = DateTime.parse(bookmark_json['time'])
             bookmark.tags        = bookmark_json['tags']
             bookmark.source      = :pinboard
             bookmark.source_id   = bookmark_json['href']
-            bookmark.save
+            bookmark.save!
           end
         end
 
-
+        # Import will only insert new bookmarks
         def import(bookmarks_json)
           puts "Importing #{bookmarks_json.length} bookmarks"
 
-          bookmarks_json.map do |bookmark_json|
-            Trawler::Stores::Bookmark.new.tap do |bookmark|
-              bookmark.url         = bookmark_json['href']
-              bookmark.title       = bookmark_json['description']
-              bookmark.description = bookmark_json['extended']
-              bookmark.time        = DateTime.parse(bookmark_json['time'])
-              bookmark.tags        = bookmark_json['tags']
-              bookmark.source      = :pinboard
-              bookmark.source_id   = bookmark_json['href']
-            end
-          end.each(&:save)
+          save_bookmarks bookmarks_json
         end
 
         private
 
-        def get_bookmark(source_id)
-          Trawler::Stores::Bookmark.where(source_id: source_id).first || Trawler::Stores::Bookmark.new
+        def save_bookmarks(json)
+          json['posts'].each do |bookmark_json|
+            bookmark = Trawler::Sources::Bookmark.find_or_create(bookmark_json['href']) do |b|
+              b.title       = bookmark_json['description']
+              b.description = bookmark_json['extended']
+              b.time        = DateTime.parse(bookmark_json['time'])
+              b.tags        = bookmark_json['tags']
+              b.source      = :pinboard
+              b.source_id   = bookmark_json['href']
+            end
+          end
         end
       end
     end

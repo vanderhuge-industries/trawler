@@ -7,14 +7,34 @@ describe Trawler::Sources::Readmill::Source do
   describe "#collect" do
 
     let(:fetcher)   { double(Trawler::Sources::Readmill::Fetcher) }
-    let(:fetched_highlights) { [
-      OpenStruct.new(reading_id: "reading1"),
-      OpenStruct.new(reading_id: "reading2")
-    ]
+    let(:fetched_highlights) {
+      [
+        OpenStruct.new(
+          text: "highlight1",
+          source: :readmill,
+          source_id: "1",
+          date: nil,
+          reading_id: "reading1"
+        ),
+        OpenStruct.new(
+          text: "highlight2",
+          source: :readmill,
+          source_id: "2",
+          date: nil,
+          reading_id: "reading2"
+        )
+      ]
     }
     let(:client_id) { "client" }
     let(:user_id)   { "user" }
-    let(:book)      { double("book") }
+    let(:book)      {
+      OpenStruct.new(
+        title: "my title",
+        author: "author",
+        source: :readmill,
+        source_id: "2"
+      )
+    }
 
     before(:each) do
       allow(Trawler::Sources::Readmill::Fetcher).to receive(:new) { fetcher }
@@ -40,11 +60,8 @@ describe Trawler::Sources::Readmill::Source do
     end
 
     it "stores the fetched highlights and books" do
-      expect(Trawler::Stores::Highlight).to have_received(:save).with([
-        OpenStruct.new(reading_id: "reading1", book: book),
-        OpenStruct.new(reading_id: "reading2", book: book)
-      ]
-      )
+      expect(Trawler::Stores::Highlight.count).to eq 2
+      expect(Trawler::Stores::Book.count).to eq 1
     end
   end
 end
