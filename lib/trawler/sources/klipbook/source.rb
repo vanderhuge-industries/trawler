@@ -1,14 +1,26 @@
+require 'json'
+
 module Trawler
   module Sources
     module Klipbook
       class Source
-        # TODO Add a task that polls a dropbox file and adds missing entries to the store
-        def collect
+        def collect(access_token)
+          contents, _ = Trawler::Dropbox::FileReader.new(access_token).read_file "/klipbook.json"
+
+          books_json = JSON.parse contents
+
+          puts "Collecting highlights from #{books_json.length} books"
+          save_books(books_json)
         end
 
         def import(books_json)
           puts "Importing highlights from #{books_json.length} books"
+          save_books(books_json)
+        end
 
+      private
+
+        def save_books(books_json)
           books_json.each do |bjson|
             book = Trawler::Stores::Book.find_or_create(bjson['title']) do |b|
               puts "Importing #{bjson['title']}"
