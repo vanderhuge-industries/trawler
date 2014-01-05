@@ -2,6 +2,7 @@ module Trawler
   module Stores
     class Bookmark
       include Mongoid::Document
+      include Mongoid::Timestamps
       include Trawler::Stores::Visible
 
       default_scope -> { desc(:time) }

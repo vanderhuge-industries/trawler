@@ -2,6 +2,7 @@ module Trawler
   module Stores
     class Highlight
       include Mongoid::Document
+      include Mongoid::Timestamps
       include Trawler::Stores::Visible
 
       field :text, type: String
