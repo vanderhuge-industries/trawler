@@ -14,6 +14,8 @@ module Trawler
 
       has_many :highlights
 
+      default_scope -> { desc(:created_at) }
+
       def self.find_or_create(title, &on_create)
         book = self.where(title: title).first
 

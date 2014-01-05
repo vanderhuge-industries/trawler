@@ -12,6 +12,8 @@ module Trawler
 
       belongs_to :book
 
+      default_scope -> { desc(:created_at) }
+
       def self.find_or_create(text, &on_create)
         highlight = self.where(text: text).first
 

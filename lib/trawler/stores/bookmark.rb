@@ -4,6 +4,8 @@ module Trawler
       include Mongoid::Document
       include Trawler::Stores::Visible
 
+      default_scope -> { desc(:time) }
+
       [:url, :title, :description, :tags, :source_id].each do |f|
         field f, type: String
       end
