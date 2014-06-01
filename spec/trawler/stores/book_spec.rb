@@ -29,7 +29,7 @@ describe Trawler::Stores::Book do
       let!(:existing_book) do
         Trawler::Stores::Book.create(
           title: "book title",
-          source: :readmill,
+          source: :klipbook,
           source_id: "1")
       end
 

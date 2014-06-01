@@ -29,7 +29,7 @@ describe Trawler::Stores::Highlight do
       let!(:existing_highlight) do
         Trawler::Stores::Highlight.create(
           text: "highlight text",
-          source: :readmill,
+          source: :klipbook,
           source_id: "1",
           date: DateTime.new(2013, 10, 10))
       end
